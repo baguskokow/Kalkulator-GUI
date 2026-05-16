@@ -7,7 +7,8 @@ package com.calculator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class NumberPanel {
 	private GridBagConstraints gridConstraint;
@@ -23,7 +24,7 @@ public class NumberPanel {
 		this.buttonFontColor = buttonFontColor;
 		this.buttonFont = buttonFont;
 		this.operatorButtonColor = operatorButtonColor;
-		
+
 		numberPanel = new JPanel();
 		numberPanel.setLayout(new GridLayout(5, 4, 10, 10)); // 5 row, 4 coloumn, 10px distance per button
 		numberPanel.setBackground(Color.decode("#16181D"));
@@ -41,17 +42,32 @@ public class NumberPanel {
 			"%", "0", ".", "="
 		};
 
-		String[] greenButton = {
-			"Ans", "AC", "/", "X", "-", "+", "="};
+		Map<Object, Boolean> greenButtonMap = new HashMap<>();
+		
+		Object[] greenButtons = {
+			"Ans", "AC", clearIcon, "/", "X", "-", "+", "="
+		};
 
+		for(int i = 0; i < greenButtons.length; i++) {
+			greenButtonMap.put(greenButtons[i], true);
+		}
 
 		for(int i = 0; i < buttons.length; i++) {
 			if(buttons[i] instanceof String) {
 				String buttonName = (String) buttons[i];
-				numberPanel.add(new Button(buttonName, buttonColor, buttonFontColor, buttonFont).getButton(), gridConstraint);
+				
+				if(greenButtonMap.containsKey(buttonName)) {
+					numberPanel.add(new Button(buttonName, operatorButtonColor, buttonFontColor, buttonFont).getButton(), gridConstraint);
+				} else {
+					numberPanel.add(new Button(buttonName, buttonColor, buttonFontColor, buttonFont).getButton(), gridConstraint);
+				}
 			} else {
 				ImageIcon iconName = (ImageIcon) buttons[i];
-				numberPanel.add(new Button(iconName, buttonColor).getButton(), gridConstraint);
+				if(greenButtonMap.containsKey(iconName)) {
+					numberPanel.add(new Button(iconName, operatorButtonColor).getButton(), gridConstraint);
+				} else {
+					numberPanel.add(new Button(iconName, buttonColor).getButton(), gridConstraint);
+				}
 			}
 		}
 	}

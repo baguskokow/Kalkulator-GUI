@@ -25,6 +25,7 @@ class Button {
     this.button.setBackground(Color.decode(backgroundColor));
     this.button.setForeground(Color.decode(foregroundColor));
     this.button.setFont(font);
+		this.button.setFocusPainted(false);
 	}
 
 	public Button(ImageIcon buttonIcon, String backgroundColor) {

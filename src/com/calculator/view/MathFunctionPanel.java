@@ -8,6 +8,8 @@ package com.calculator;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class MathFunctionPanel {
 	private GridBagConstraints gridConstraint;
@@ -53,10 +55,19 @@ public class MathFunctionPanel {
 			"sin", "cos", "tan", sepuluhPangkatNIcon
 		};
 
+		Map<String, Boolean> greenButtonMap = new HashMap<>(); // For green button
+		String[] greenButtons = {"Rad"};
+
+		greenButtonMap.put(greenButtons[0], true);
+
 		for(int i = 0; i < buttons.length; i++) {
 			if(buttons[i] instanceof String) {
 				String buttonName = (String) buttons[i];
-				mathFunctionPanel.add(new Button(buttonName, buttonColor, buttonFontColor, FONT).getButton(), gridConstraint);
+				if(greenButtonMap.containsKey(buttonName)) {
+					mathFunctionPanel.add(new Button(buttonName, operatorButtonColor, buttonFontColor, FONT).getButton(), gridConstraint);
+				} else {
+					mathFunctionPanel.add(new Button(buttonName, buttonColor, buttonFontColor, FONT).getButton(), gridConstraint);
+				}
 			} else {
 				ImageIcon iconName = (ImageIcon) buttons[i];
 				mathFunctionPanel.add(new Button(iconName, buttonColor).getButton(), gridConstraint);
