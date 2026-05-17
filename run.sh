@@ -1,1 +1,1 @@
-java --class-path bin com.calculator.Main
+java --class-path ".:bin/:lib/*" com.calculator.Main

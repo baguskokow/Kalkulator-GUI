@@ -8,11 +8,13 @@ package com.calculator;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+//import org.scilab.forge.jlatexmath.TeXFormula;
+//import org.scilab.forge.jlatexmath.TeXIcon;
+//import org.scilab.forge.jlatexmath.TeXConstants;
 
 public class App {
 	private final int WIDTH_FRAME = 900;
 	private final int HEIGHT_FRAME = 600;
-	//private final String FONT = "Inter";
 	private final Font buttonFont = new CalculatorFont("Inter", 1, 18).getFont();
 	private final Font screenFont = new CalculatorFont("Inter", 1, 24).getFont();
 	private final String operatorButtonColor = "#24D366";
@@ -21,6 +23,12 @@ public class App {
 	private final String buttonFontColor = "#ffffff";
 	private final String fontColor = "#d4d0c5";
 	private final int buttonFontSize = 14;
+
+	private ArrayList<JButton> listOfButtonNumber;
+	private ArrayList<JButton> listOfMathFunctionButton;
+	private ArrayList<JButton> listAllButtons = new ArrayList<JButton>();
+
+	private ButtonController buttonController;
 
 	private JFrame frame;
 	private JPanel screenPanel;
@@ -37,7 +45,7 @@ public class App {
 		gridConstraint.weighty = 1.0;
 
 		// Define Label
-		screenLabel = new Label("Haloo Teman-Teman", screenFont, fontColor, labelColor).getLabel();
+		screenLabel = new Label(screenFont, fontColor, labelColor).getLabel();
 
 		// Define Panel
 		NumberPanel numberPanel = new NumberPanel(buttonColor, operatorButtonColor, buttonFontColor, buttonFont);
@@ -49,6 +57,11 @@ public class App {
 		ScreenPanel screenPanel = new ScreenPanel("#16181D", screenLabel);
 		screenPanel.getPanel();
 
+
+		// Get Button
+		listOfButtonNumber = numberPanel.getNumberButton();
+		listOfMathFunctionButton = mathFunctionPanel.getMathFunctionButton();
+		combineButton(listOfButtonNumber, listOfMathFunctionButton); // Menggabungkan numberButton dan juga mathFunctionButton
 		
 		// Container
 		JPanel containerAtas = new JPanel();
@@ -62,6 +75,8 @@ public class App {
 		
 		containerBawah.add(mathFunctionPanel.getPanel());
 		containerBawah.add(numberPanel.getPanel());
+
+		addEvent();
 		
 		frame.setSize(WIDTH_FRAME, HEIGHT_FRAME);
 		frame.setResizable(false);
@@ -72,8 +87,22 @@ public class App {
 		frame.add(containerBawah, BorderLayout.CENTER);
 	}
 
+	public void addEvent() {
+		buttonController = new ButtonController(listAllButtons, screenLabel);
+	}
+
 	public void show() {
 		frame.setVisible(true);
+	}
+
+	public void combineButton(ArrayList<JButton> buttonNumber, ArrayList<JButton> mathFunctionButton) {
+		for(int i = 0; i < buttonNumber.size(); i++) {
+			listAllButtons.add(buttonNumber.get(i));		
+		}
+		
+		for(int i = 0; i < mathFunctionButton.size(); i++) {
+			listAllButtons.add(mathFunctionButton.get(i));			
+		}
 	}
 
 	private ImageIcon resizeIcon(ImageIcon img, int width, int height) {
@@ -84,16 +113,5 @@ public class App {
 
 		return result;
 	}
-	
-//	public void setButtonAction(String text) {
-//		ActionListener buttonListener = new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent action) {
-//				textField.setText(text);
-//			}	
-//		};
-//
-//		//button.addActionListener(buttonListener);
-//	}
 }
 

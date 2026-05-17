@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class NumberPanel {
 	private GridBagConstraints gridConstraint;
@@ -18,6 +19,7 @@ public class NumberPanel {
 	private String buttonFontColor;
 	private String operatorButtonColor;
 	private Font buttonFont;
+	private ArrayList<JButton> listAllButton;
 
 	public NumberPanel(String buttonColor, String operatorButtonColor,String buttonFontColor, Font buttonFont) {
 		this.buttonColor = buttonColor;
@@ -42,6 +44,9 @@ public class NumberPanel {
 			"%", "0", ".", "="
 		};
 
+		// All of button in right side saved in listAllButton
+		listAllButton = new ArrayList<JButton>();
+
 		Map<Object, Boolean> greenButtonMap = new HashMap<>();
 		
 		Object[] greenButtons = {
@@ -57,19 +62,28 @@ public class NumberPanel {
 				String buttonName = (String) buttons[i];
 				
 				if(greenButtonMap.containsKey(buttonName)) {
-					numberPanel.add(new Button(buttonName, operatorButtonColor, buttonFontColor, buttonFont).getButton(), gridConstraint);
+					listAllButton.add(new Button(buttonName, operatorButtonColor, buttonFontColor, buttonFont).getButton());
 				} else {
-					numberPanel.add(new Button(buttonName, buttonColor, buttonFontColor, buttonFont).getButton(), gridConstraint);
+					listAllButton.add(new Button(buttonName, buttonColor, buttonFontColor, buttonFont).getButton());
 				}
 			} else {
 				ImageIcon iconName = (ImageIcon) buttons[i];
 				if(greenButtonMap.containsKey(iconName)) {
-					numberPanel.add(new Button(iconName, operatorButtonColor).getButton(), gridConstraint);
+					listAllButton.add(new Button(iconName, operatorButtonColor).getButton());
+					if(iconName == clearIcon) {
+						listAllButton.get(i).setActionCommand("BACKSPACE");
+					}
 				} else {
-					numberPanel.add(new Button(iconName, buttonColor).getButton(), gridConstraint);
+					listAllButton.add(new Button(iconName, buttonColor).getButton());
 				}
 			}
+
+			numberPanel.add(listAllButton.get(i), gridConstraint);
 		}
+	}
+
+	public ArrayList<JButton> getNumberButton() {
+		return listAllButton;
 	}
 	
 	public JPanel getPanel() {

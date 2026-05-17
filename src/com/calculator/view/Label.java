@@ -16,8 +16,7 @@ class Label {
 	private String backgroundColor;
 	private final Font labelFont = new CalculatorFont("Inter", 1, 24).getFont();
 
-	public Label(String text, Font font, String textColor, String backgroundColor) {
-		this.text = text;
+	public Label(Font font, String textColor, String backgroundColor) {
 		this.textColor = textColor;
 		this.backgroundColor = backgroundColor;
 

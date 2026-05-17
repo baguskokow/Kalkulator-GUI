@@ -20,6 +20,8 @@ public class MathFunctionPanel {
 	private Font FONT;
 	private int buttonFontSize;
 
+	private ArrayList<JButton> listAllButton;
+
 	// Image Icon
 	private ImageIcon undoIcon;
 	private ImageIcon redoIcon;
@@ -55,23 +57,41 @@ public class MathFunctionPanel {
 			"sin", "cos", "tan", sepuluhPangkatNIcon
 		};
 
-		Map<String, Boolean> greenButtonMap = new HashMap<>(); // For green button
-		String[] greenButtons = {"Rad"};
+		Map<Object, Boolean> iconButton = new HashMap<>();
 
-		greenButtonMap.put(greenButtons[0], true);
+		Object[] iconButtons = {
+			undoIcon, redoIcon, PI_Icon, squareIcon, sqrtIcon, cubeIcon,
+			cubeRootIcon, exponenIcon, rootNIcon, sepuluhPangkatNIcon
+		};
+
+		Map<Object, Boolean> operatorButtonMap = new HashMap<>(); // For green button
+		for(int i = 0; i < iconButtons.length; i++) {
+			operatorButtonMap.put(iconButtons[i], true);
+		}
+
+		listAllButton = new ArrayList<JButton>();
 
 		for(int i = 0; i < buttons.length; i++) {
 			if(buttons[i] instanceof String) {
 				String buttonName = (String) buttons[i];
-				if(greenButtonMap.containsKey(buttonName)) {
-					mathFunctionPanel.add(new Button(buttonName, operatorButtonColor, buttonFontColor, FONT).getButton(), gridConstraint);
+				if(buttonName.equals("Rad")) {
+					listAllButton.add(new Button(buttonName, operatorButtonColor, buttonFontColor, FONT).getButton());
 				} else {
-					mathFunctionPanel.add(new Button(buttonName, buttonColor, buttonFontColor, FONT).getButton(), gridConstraint);
+					listAllButton.add(new Button(buttonName, buttonColor, buttonFontColor, FONT).getButton());
 				}
 			} else {
 				ImageIcon iconName = (ImageIcon) buttons[i];
-				mathFunctionPanel.add(new Button(iconName, buttonColor).getButton(), gridConstraint);
+				if(operatorButtonMap.containsKey(iconName)) {
+					listAllButton.add(new Button(iconName, buttonColor).getButton());
+					if(iconName == undoIcon) {
+						listAllButton.get(i).setActionCommand("UNDO");
+					}
+				} else {
+					listAllButton.add(new Button(iconName, buttonColor).getButton());
+				}
 			}
+
+			mathFunctionPanel.add(listAllButton.get(i), gridConstraint);
 		}
 	}
 
@@ -86,6 +106,10 @@ public class MathFunctionPanel {
 		this.cubeIcon = new ImageHelper("src/com/calculator/images/cubeIcon.png", 20, 20).getImageIcon();
 		this.exponenIcon = new ImageHelper("src/com/calculator/images/exponenIcon.png", 20, 20).getImageIcon();
 		this.sepuluhPangkatNIcon = new ImageHelper("src/com/calculator/images/sepuluhPangkatNIcon.png", 20, 20).getImageIcon();
+	}
+
+	public ArrayList<JButton> getMathFunctionButton() {
+		return listAllButton;
 	}
 	
 	public JPanel getPanel() {
