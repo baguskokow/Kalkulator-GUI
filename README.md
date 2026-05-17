@@ -2,6 +2,7 @@
 
 ### Library
 - Java Swing
+- JLateXMath
 
 
 ### Sumber Belajar
