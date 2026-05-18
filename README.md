@@ -4,6 +4,23 @@
 - Java Swing
 - JLateXMath
 
+### To do
+- [ ] Setup in Windows Environment
+- [ ] Fix arithmetic operation
+- [ ] Add others math function
+
+### Run in Linux Distros
+- Compile
+```bash
+$ cd Kalkulator
+$ bash compile.sh
+```
+- Run
+
+```bash
+$ bash run.sh
+```
+
 
 ### Sumber Belajar
 - https://www.cs.buap.mx/~ygalicia/Libros/JavaSwing.pdf
