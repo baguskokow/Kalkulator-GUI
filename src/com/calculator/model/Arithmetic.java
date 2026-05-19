@@ -18,7 +18,7 @@ class Arithmetic {
 
 	public Arithmetic(String argument) {
 		for(int i = 0; i < argument.length(); i++) {
-			if(argument.charAt(i) == '+' || argument.charAt(i) == '-' || argument.charAt(i) == '/' || argument.charAt(i) == 'X') {
+			if(argument.charAt(i) == '+' || argument.charAt(i) == '-' || argument.charAt(i) == '÷' || argument.charAt(i) == '×') {
 				operatorCharacter.add(argument.charAt(i));
 			} else {
 				operand.add((double) (argument.charAt(i) - '0'));
@@ -49,13 +49,13 @@ class Arithmetic {
 			char tempOperator = operatorCharacter.get(i);
 			double tempResult = 0;
 
-			if(tempOperator == '/' || tempOperator == 'X') {
+			if(tempOperator == '÷' || tempOperator == '×') {
 				double leftNumber = operand.get(i);
 				double rightNumber = operand.get(i+1);
 
-				if(tempOperator == '/') {
+				if(tempOperator == '÷') {
 					tempResult = leftNumber / rightNumber;
-				} else if(tempOperator == 'X') {
+				} else if(tempOperator == '×') {
 					tempResult = leftNumber * rightNumber;
 				}
 

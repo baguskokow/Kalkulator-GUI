@@ -37,8 +37,8 @@ public class NumberPanel {
 		clearIcon = helperIcon.getImageIcon();
 		
 		Object[] buttons = {
-			"Ans", "AC", clearIcon, "/",
-			"1", "2", "3", "X",
+			"Ans", "AC", clearIcon, "÷", //U+00F7 = /
+			"1", "2", "3", "×",
 			"4", "5", "6", "-",
 			"7", "8", "9", "+",
 			"%", "0", ".", "="
@@ -50,7 +50,7 @@ public class NumberPanel {
 		Map<Object, Boolean> greenButtonMap = new HashMap<>();
 		
 		Object[] greenButtons = {
-			"Ans", "AC", clearIcon, "/", "X", "-", "+", "="
+			"Ans", "AC", clearIcon, "÷", "×", "-", "+", "="
 		};
 
 		for(int i = 0; i < greenButtons.length; i++) {

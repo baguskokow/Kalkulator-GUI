@@ -38,7 +38,7 @@ class ButtonController implements ActionListener {
 		String textTombol = action.getActionCommand();
 		System.out.println(textTombol); // Logger
 		
-		if(textTombol.equals("+") || textTombol.equals("-") || textTombol.equals("/") || textTombol.equals("X")) {
+		if(textTombol.equals("+") || textTombol.equals("-") || textTombol.equals("÷") || textTombol.equals("×")) {
 			isCalculated = false;
 		}
 
@@ -65,7 +65,7 @@ class ButtonController implements ActionListener {
 				updateLatexScreen(rawText);
 			}
 		} else if(textTombol != null && textTombol.isEmpty() != true) {
-			boolean isOperator = textTombol.equals("+") || textTombol.equals("-") || textTombol.equals("/") || textTombol.equals("X");
+			boolean isOperator = textTombol.equals("+") || textTombol.equals("-") || textTombol.equals("÷") || textTombol.equals("×");
 			if(isCalculated == true) {
 				if (isOperator == true) {
 					rawText += textTombol;
