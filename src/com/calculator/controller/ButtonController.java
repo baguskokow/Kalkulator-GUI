@@ -46,7 +46,7 @@ class ButtonController implements ActionListener {
 
 		if(textTombol.equals("=")) {
 			if(rawText.contains("ln")) {
-				int startIndex = rawText.indexOf("ln(") + 3;
+				int startIndex = rawText.indexOf("ln") + 2;
 				int endIndex = rawText.indexOf(")");
 
 				if(endIndex > startIndex) {
@@ -55,13 +55,16 @@ class ButtonController implements ActionListener {
 					LogarithmFunction logarithm = new LogarithmFunction(operand);
 					String result = logarithm.getResult();
 
-					rawText = rawText.replace("ln(" + operand + ")", result);
+					System.out.println("Cek logic : " + result);
+					rawText = rawText.replace("ln" + operand + ")", result);
+					//System.out.println(rawText);
 				}
 			}
 
 			arithmetic = new Arithmetic(rawText);
 			String result = arithmetic.getResult();
 			rawText = result;
+			System.out.println("Cek logic ke-2 : " + rawText);
 			updateLatexScreen(rawText);
 			isCalculated = true;
 			return;
@@ -82,9 +85,9 @@ class ButtonController implements ActionListener {
 			}
 		} else if(textTombol.equals("ln")) {
 			if(rawText.equals("0") || isCalculated) {
-				rawText = "ln(";
+				rawText = "ln";
 			} else {
-				rawText += "ln(";
+				rawText += "ln";
 			}
 			isCalculated = false;
 			updateLatexScreen(rawText);
@@ -116,12 +119,12 @@ class ButtonController implements ActionListener {
 			return "0";
 		}
 
-		if(plainText.equals("PI")) {
-			formatted = "\\pi";
-		} else if(plainText.equals("ln")) {
-			formatted = "\\ln(" + plainText;
-		} else if(plainText.equals("log")) {
-			formatted = "\\log(";
+		if(plainText.contains("PI")) {
+			formatted = plainText.replace("PI", "\\pi");
+		}else if(plainText.contains("ln")) {
+			formatted = plainText.replace("ln", "\\ln(");
+		} else if(plainText.contains("log")) {
+			formatted = plainText.replace("log", "\\log(");
 		}else {
 			formatted = plainText;
 		}
@@ -133,10 +136,11 @@ class ButtonController implements ActionListener {
 		try {
 			String latexFormula = formatToLatex(textToRender);
 
+			//System.out.println("Sebelum : " + latexFormula); // for debugging
 			TeXFormula formula = new TeXFormula(latexFormula);
 			TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 24);
+			//System.out.println("Sesudah " + latexFormula); // for debugging
 
-			//screenLabel.setText("");
 			screenLabel.setIcon(icon);
 
 		} catch(Exception e) {

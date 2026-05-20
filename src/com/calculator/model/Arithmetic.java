@@ -17,12 +17,19 @@ class Arithmetic {
 	double result;
 
 	public Arithmetic(String argument) {
+		String tempNumbers = "";
 		for(int i = 0; i < argument.length(); i++) {
-			if(argument.charAt(i) == '+' || argument.charAt(i) == '-' || argument.charAt(i) == '÷' || argument.charAt(i) == '×') {
-				operatorCharacter.add(argument.charAt(i));
-			} else {
-				operand.add((double) (argument.charAt(i) - '0'));
+			char temp = argument.charAt(i);
+			
+			if(Character.isDigit(temp) || temp == '.') {
+				tempNumbers += temp;
+			} else if(temp == '+' || temp == '-' || temp == '÷' || temp == '×') {
+				operatorCharacter.add(temp);
 			}
+		}
+
+		if(tempNumbers.isEmpty() != true) {
+			operand.add(Double.parseDouble(tempNumbers));
 		}
 
 		calculated();
@@ -31,9 +38,10 @@ class Arithmetic {
 	}
 
 	public String getResult() {
-		DecimalFormat df = new DecimalFormat("#.#####");
-		return df.format(result);
-		//return String.valueOf(result).replaceAll("\\.0", "");
+		if(result == (int) result) {
+			return String.valueOf(result).replaceAll("\\.0", "");	
+		}
+		return String.valueOf(result);
 	}
 
 	public void counting() {

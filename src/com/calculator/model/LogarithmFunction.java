@@ -24,10 +24,10 @@ class LogarithmFunction {
 	}
 
 	public String getResult() {
-		DecimalFormat df = new DecimalFormat("#.#####");
-		return df.format(result);
-
-
-		// Fix decimal format!
+		if(result == (int) result) {
+			return String.valueOf(result).replaceAll("\\.0", "");
+		}
+		
+		return String.valueOf(result);
 	}
 }
