@@ -31,7 +31,9 @@ class Arithmetic {
 	}
 
 	public String getResult() {
-		return String.valueOf(result).replaceAll("\\.0", "");
+		DecimalFormat df = new DecimalFormat("#.#####");
+		return df.format(result);
+		//return String.valueOf(result).replaceAll("\\.0", "");
 	}
 
 	public void counting() {

@@ -37,12 +37,28 @@ class ButtonController implements ActionListener {
 	public void actionPerformed(ActionEvent action) {
 		String textTombol = action.getActionCommand();
 		System.out.println(textTombol); // Logger
+																
 		
 		if(textTombol.equals("+") || textTombol.equals("-") || textTombol.equals("÷") || textTombol.equals("×")) {
 			isCalculated = false;
 		}
 
+
 		if(textTombol.equals("=")) {
+			if(rawText.contains("ln")) {
+				int startIndex = rawText.indexOf("ln(") + 3;
+				int endIndex = rawText.indexOf(")");
+
+				if(endIndex > startIndex) {
+					String operand = rawText.substring(startIndex, endIndex);
+					
+					LogarithmFunction logarithm = new LogarithmFunction(operand);
+					String result = logarithm.getResult();
+
+					rawText = rawText.replace("ln(" + operand + ")", result);
+				}
+			}
+
 			arithmetic = new Arithmetic(rawText);
 			String result = arithmetic.getResult();
 			rawText = result;
@@ -50,7 +66,7 @@ class ButtonController implements ActionListener {
 			isCalculated = true;
 			return;
 		}
-
+		
 		if(textTombol.equals("AC")) {
 			rawText = "0";
 			updateLatexScreen(rawText);
@@ -64,6 +80,15 @@ class ButtonController implements ActionListener {
 				rawText = newText;
 				updateLatexScreen(rawText);
 			}
+		} else if(textTombol.equals("ln")) {
+			if(rawText.equals("0") || isCalculated) {
+				rawText = "ln(";
+			} else {
+				rawText += "ln(";
+			}
+			isCalculated = false;
+			updateLatexScreen(rawText);
+			return;
 		} else if(textTombol != null && textTombol.isEmpty() != true) {
 			boolean isOperator = textTombol.equals("+") || textTombol.equals("-") || textTombol.equals("÷") || textTombol.equals("×");
 			if(isCalculated == true) {
@@ -86,11 +111,20 @@ class ButtonController implements ActionListener {
 	}
 
 	private String formatToLatex(String plainText) {
+		String formatted;
 		if(plainText.isEmpty() || plainText.equals("0")) {
 			return "0";
 		}
 
-		String formatted = plainText;
+		if(plainText.equals("PI")) {
+			formatted = "\\pi";
+		} else if(plainText.equals("ln")) {
+			formatted = "\\ln(" + plainText;
+		} else if(plainText.equals("log")) {
+			formatted = "\\log(";
+		}else {
+			formatted = plainText;
+		}
 
 		return formatted;
 	}
