@@ -47,7 +47,13 @@ class ButtonController implements ActionListener {
 		if(textTombol.equals("=")) {
 			if(rawText.contains("ln")) {
 				int startIndex = rawText.indexOf("ln") + 2;
-				int endIndex = rawText.indexOf(")");
+				int endIndex;
+				
+				if(rawText.contains(")")) {
+					endIndex = rawText.indexOf(")");
+				} else {
+					endIndex = rawText.length() ;
+				}
 
 				if(endIndex > startIndex) {
 					String operand = rawText.substring(startIndex, endIndex);
@@ -55,9 +61,12 @@ class ButtonController implements ActionListener {
 					LogarithmFunction logarithm = new LogarithmFunction(operand);
 					String result = logarithm.getResult();
 
-					System.out.println("Cek logic : " + result);
-					rawText = rawText.replace("ln" + operand + ")", result);
-					//System.out.println(rawText);
+					//System.out.println("Cek logic : " + result); // debugging
+					if(rawText.contains(")")) {
+						rawText = rawText.replace("ln" + operand + ")", result);
+					} else {
+						rawText = rawText.replace("ln" + operand, result);
+					}
 				}
 			}
 
