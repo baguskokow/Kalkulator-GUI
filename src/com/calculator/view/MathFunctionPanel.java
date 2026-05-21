@@ -87,6 +87,8 @@ public class MathFunctionPanel {
 						listAllButton.get(i).setActionCommand("UNDO");
 					} else if(iconName == PI_Icon) {
 						listAllButton.get(i).setActionCommand("PI");
+					} else if(iconName == sqrtIcon) {
+						listAllButton.get(i).setActionCommand("SQRT");
 					}
 				} else {
 					listAllButton.add(new Button(iconName, buttonColor).getButton());

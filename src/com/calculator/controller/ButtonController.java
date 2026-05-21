@@ -19,6 +19,7 @@ class ButtonController implements ActionListener {
 	private ArrayList<JButton> listAllButton;
 	private Arithmetic arithmetic;
 	private Trigonometri trigonometri;
+	private SquareRoot squareRoot;
 	private String rawText = "0";
 	private boolean isCalculated = false;
 	String functionType = "";																		
@@ -98,6 +99,7 @@ class ButtonController implements ActionListener {
 			}
 
 			trigonometry();
+			squareRoot();
 
 
 			arithmetic = new Arithmetic(rawText);
@@ -161,6 +163,22 @@ class ButtonController implements ActionListener {
 		}
 	}
 
+
+	private void squareRoot() {
+		int startIndex;
+		int endIndex;
+		if(rawText.contains("SQRT")) {
+			startIndex = rawText.indexOf("SQRT") + 4;
+			endIndex = 5;
+			String operand = rawText.substring(startIndex, endIndex);
+			
+			squareRoot = new SquareRoot(operand);
+			String result = squareRoot.getResult();
+
+			rawText = rawText.replace("SQRT" + operand, result);
+		}
+
+	}
 
 	private void trigonometry() {
 			// Set function type
@@ -226,6 +244,8 @@ class ButtonController implements ActionListener {
 			formatted = plainText.replace("cos", "\\cos(");
 		} else if(plainText.contains("tan")) {
 			formatted = plainText.replace("tan", "\\tan(");
+		} else if(plainText.contains("SQRT")) {
+			formatted = plainText.replace("SQRT", "\\sqrt{");
 		} else {
 			formatted = plainText;
 		}
