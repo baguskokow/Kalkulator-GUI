@@ -21,6 +21,9 @@ class ButtonController implements ActionListener {
 	private Trigonometri trigonometri;
 	private SepuluhPangkatN sepuluhPangkatN;
 	private SquareRoot squareRoot;
+	private Square square;
+	private LogarithmFunction logarithm;
+	private NaturalLogarithmFunction naturalLogarithm;
 	private String rawText = "0";
 	private boolean isCalculated = false;
 	String functionType = "";																		
@@ -41,6 +44,7 @@ class ButtonController implements ActionListener {
 	public void actionPerformed(ActionEvent action) {
 		String textTombol = action.getActionCommand();
 		System.out.println(textTombol); // Logger
+		boolean isOperator = false;																	
 																
 		
 		if(textTombol.equals("+") || textTombol.equals("-") || textTombol.equals("÷") || textTombol.equals("×")) {
@@ -49,60 +53,15 @@ class ButtonController implements ActionListener {
 
 
 		if(textTombol.equals("=")) {
-			if(rawText.contains("ln")) {
-				int startIndex = rawText.indexOf("ln") + 2;
-				int endIndex;
-				
-				if(rawText.contains(")")) {
-					endIndex = rawText.indexOf(")");
-				} else {
-					endIndex = rawText.length() ;
-				}
 
-				if(endIndex > startIndex) {
-					String operand = rawText.substring(startIndex, endIndex);
-					
-					LogarithmFunction logarithm = new LogarithmFunction(operand);
-					String result = logarithm.getResult();
 
-					//System.out.println("Cek logic : " + result); // debugging
-					if(rawText.contains(")")) {
-						rawText = rawText.replace("ln" + operand + ")", result);
-					} else {
-						rawText = rawText.replace("ln" + operand, result);
-					}
-				}
-			}
-
-			if(rawText.contains("log")) {
-				int startIndex = rawText.indexOf("log") + 3;
-				int endIndex;
-				
-				if(rawText.contains(")")) {
-					endIndex = rawText.indexOf(")");
-				} else {
-					endIndex = rawText.length() ;
-				}
-
-				if(endIndex > startIndex) {
-					String operand = rawText.substring(startIndex, endIndex);
-					
-					LogarithmFunction logarithm = new LogarithmFunction(operand);
-					String result = logarithm.getResult();
-
-					//System.out.println("Cek logic : " + result); // debugging
-					if(rawText.contains(")")) {
-						rawText = rawText.replace("log" + operand + ")", result);
-					} else {
-						rawText = rawText.replace("log" + operand, result);
-					}
-				}
-			}
-
+			logarithmFunction();
+			naturalLogarithmFunction();
 			trigonometry();
 			squareRoot();
 			cubeRoot();
 			sepuluhPangkatN();
+			square();
 
 
 			arithmetic = new Arithmetic(rawText);
@@ -147,7 +106,17 @@ class ButtonController implements ActionListener {
 			updateLatexScreen(rawText);
 			return;
 
-		}else if(textTombol.equals("log")) {
+		} else if(textTombol.equals("x^2")) {
+			if(rawText.equals("0") || isCalculated) {
+				rawText = "0^2";
+			} else {
+				rawText += "^2";
+			}
+			isCalculated = false;
+			updateLatexScreen(rawText);
+			return;
+
+		} else if(textTombol.equals("log")) {
 			if(rawText.equals("0") || isCalculated) {
 				rawText = "log";
 			} else {
@@ -157,7 +126,7 @@ class ButtonController implements ActionListener {
 			updateLatexScreen(rawText);
 			return;
 		} else if(textTombol != null && textTombol.isEmpty() != true) {
-			boolean isOperator = textTombol.equals("+") || textTombol.equals("-") || textTombol.equals("÷") || textTombol.equals("×");
+			isOperator = textTombol.equals("+") || textTombol.equals("-") || textTombol.equals("÷") || textTombol.equals("×");
 			if(isCalculated == true) {
 				if (isOperator == true) {
 					rawText += textTombol;
@@ -174,9 +143,76 @@ class ButtonController implements ActionListener {
 			}
 
 			updateLatexScreen(rawText);
+		} else {
+			if(isOperator) {
+				rawText += textTombol;
+			} else if(rawText.contains("^2")) {
+				int idx = rawText.indexOf("^2");
+				String base = rawText.substring(0, idx);
+				String suffix = rawText.substring(idx);
+
+				if(base.equals("0")) {
+					rawText += textTombol + suffix;
+				} else {
+					rawText = base + textTombol + suffix;
+				}
+			}
 		}
 	}
 
+	private void logarithmFunction() { // Log base 10
+		if(rawText.contains("log")) {
+			int startIndex = rawText.indexOf("log") + 3;
+			int endIndex;
+			
+			if(rawText.contains(")")) {
+				endIndex = rawText.indexOf(")");
+			} else {
+				endIndex = rawText.length() ;
+			}
+
+			if(endIndex > startIndex) {
+				String operand = rawText.substring(startIndex, endIndex);
+				
+				logarithm = new LogarithmFunction(operand);
+				String result = logarithm.getResult();
+
+				//System.out.println("Cek logic : " + result); // debugging
+				if(rawText.contains(")")) {
+					rawText = rawText.replace("log" + operand + ")", result);
+				} else {
+					rawText = rawText.replace("log" + operand, result);
+				}
+			}
+		}
+	} 
+
+	private void naturalLogarithmFunction() {
+		if(rawText.contains("ln")) {
+			int startIndex = rawText.indexOf("ln") + 2;
+			int endIndex;
+			
+			if(rawText.contains(")")) {
+				endIndex = rawText.indexOf(")");
+			} else {
+				endIndex = rawText.length() ;
+			}
+
+			if(endIndex > startIndex) {
+				String operand = rawText.substring(startIndex, endIndex);
+				
+				naturalLogarithm = new NaturalLogarithmFunction(operand);
+				String result = naturalLogarithm.getResult();
+
+				System.out.println("Cek logic : " + result); // debugging
+				if(rawText.contains(")")) {
+					rawText = rawText.replace("ln" + operand + ")", result);
+				} else {
+					rawText = rawText.replace("ln" + operand, result);
+				}
+			}
+		}
+	}
 
 	private void squareRoot() {
 		int startIndex;
@@ -271,6 +307,23 @@ class ButtonController implements ActionListener {
 		}
 	}
 
+	private void square() {
+		int startIndex;
+		int endIndex;
+		if(rawText.contains("^2")) {
+			startIndex = rawText.indexOf("^2");
+			endIndex = rawText.length();
+			String base = rawText.substring(0, startIndex);
+			String suffix = rawText.substring(startIndex + 2);
+			
+			square = new Square(base);
+			String result = square.getResult();
+			System.out.println("Ini hasilnya kawan : " + result);
+
+			rawText = result + suffix;
+		}
+	}
+
 	private String formatToLatex(String plainText) {
 		String formatted = plainText;
 		
@@ -310,8 +363,14 @@ class ButtonController implements ActionListener {
 			formatted = plainText.replace("CUBEROOT", "\\sqrt[3]{");
 		} 
 		
-		if(plainText.contains("SQUARE")) {
-			formatted = plainText.replaceAll("(\\d+)\\^(\\d+)", "$1^{$2}");
+		if(plainText.contains("^2")) {
+			int index = formatted.indexOf("^2");
+
+			String base = formatted.substring(0, index);
+			String suffix = formatted.substring(index + 2);
+
+			formatted = base + "|^{2}" + suffix;
+			System.out.println("Hasil formatted : " + formatted); // debugging
 		}
 
 		if(formatted.contains("10^")) {
@@ -321,7 +380,18 @@ class ButtonController implements ActionListener {
 			String pangkat = formatted.substring(index + 3);
 
 			formatted = prefix + "10^{" + pangkat + "|}";
+			System.out.println("Hasil formatted : " + formatted); // debugging
+		}
+
+		if(formatted.contains("x^2")) {
+			int index = formatted.indexOf("^");
+
+			String prefix = formatted.substring(0, index);
+			String pangkat = formatted.substring(index + 1);
+
+			formatted = prefix + "^{" + pangkat + "|}";
 			System.out.println("Hasil formatted : " + formatted);
+
 		}
 
 		return formatted;

@@ -91,10 +91,10 @@ public class MathFunctionPanel {
 						listAllButton.get(i).setActionCommand("SQRT");
 					} else if(iconName == cubeRootIcon) {
 						listAllButton.get(i).setActionCommand("CUBEROOT");
-					} else if(iconName == squareIcon) {
-						listAllButton.get(i).setActionCommand("SQUARE");
 					} else if(iconName == sepuluhPangkatNIcon) {
 						listAllButton.get(i).setActionCommand("10^x");
+					} else if(iconName == squareIcon) {
+						listAllButton.get(i).setActionCommand("x^2");
 					}
 				} else {
 					listAllButton.add(new Button(iconName, buttonColor).getButton());
