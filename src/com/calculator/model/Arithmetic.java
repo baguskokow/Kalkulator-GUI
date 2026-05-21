@@ -24,6 +24,8 @@ class Arithmetic {
 			if(Character.isDigit(temp) || temp == '.') {
 				tempNumbers += temp;
 			} else if(temp == '+' || temp == '-' || temp == '÷' || temp == '×') {
+				operand.add(Double.parseDouble(tempNumbers)); // Kalau ketemu operator, masukkan nilai ke operand
+				tempNumbers = "";
 				operatorCharacter.add(temp);
 			}
 		}
@@ -31,7 +33,9 @@ class Arithmetic {
 		if(tempNumbers.isEmpty() != true) {
 			operand.add(Double.parseDouble(tempNumbers));
 		}
+		
 
+		System.out.println("Ini dari arithmetic constructor");
 		calculated();
 		result = operand.get(0);
 		counting();

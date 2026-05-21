@@ -70,6 +70,31 @@ class ButtonController implements ActionListener {
 				}
 			}
 
+			if(rawText.contains("log")) {
+				int startIndex = rawText.indexOf("log") + 3;
+				int endIndex;
+				
+				if(rawText.contains(")")) {
+					endIndex = rawText.indexOf(")");
+				} else {
+					endIndex = rawText.length() ;
+				}
+
+				if(endIndex > startIndex) {
+					String operand = rawText.substring(startIndex, endIndex);
+					
+					LogarithmFunction logarithm = new LogarithmFunction(operand);
+					String result = logarithm.getResult();
+
+					//System.out.println("Cek logic : " + result); // debugging
+					if(rawText.contains(")")) {
+						rawText = rawText.replace("log" + operand + ")", result);
+					} else {
+						rawText = rawText.replace("log" + operand, result);
+					}
+				}
+			}
+
 			arithmetic = new Arithmetic(rawText);
 			String result = arithmetic.getResult();
 			rawText = result;
@@ -97,6 +122,15 @@ class ButtonController implements ActionListener {
 				rawText = "ln";
 			} else {
 				rawText += "ln";
+			}
+			isCalculated = false;
+			updateLatexScreen(rawText);
+			return;
+		} else if(textTombol.equals("log")) {
+			if(rawText.equals("0") || isCalculated) {
+				rawText = "log";
+			} else {
+				rawText += "log";
 			}
 			isCalculated = false;
 			updateLatexScreen(rawText);

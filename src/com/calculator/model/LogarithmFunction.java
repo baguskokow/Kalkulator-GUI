@@ -17,10 +17,14 @@ class LogarithmFunction {
 	char[] operand;
 
 	public LogarithmFunction(String argument) {
-
 		double temp = Double.parseDouble(argument);
+		
+		if(argument.contains("ln")) {
+			result = Math.log(temp);
+		} else if(argument.contains("log")) {
+			result = Math.log10(temp);
+		}
 
-		result = Math.log(temp);
 	}
 
 	public String getResult() {
