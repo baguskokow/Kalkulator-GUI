@@ -22,6 +22,7 @@ class ButtonController implements ActionListener {
 	private SepuluhPangkatN sepuluhPangkatN;
 	private SquareRoot squareRoot;
 	private Square square;
+	private Cube cube;
 	private LogarithmFunction logarithm;
 	private NaturalLogarithmFunction naturalLogarithm;
 	private String rawText = "0";
@@ -62,6 +63,7 @@ class ButtonController implements ActionListener {
 			cubeRoot();
 			sepuluhPangkatN();
 			square();
+			cube();
 
 
 			arithmetic = new Arithmetic(rawText);
@@ -304,6 +306,23 @@ class ButtonController implements ActionListener {
 			System.out.println("Ini hasilnya kawan : " + result);
 
 			rawText = rawText.replace("10^" + operand, result);
+		}
+	}
+
+	private void cube() {
+		int startIndex;
+		int endIndex;
+		if(rawText.contains("^3")) {
+			startIndex = rawText.indexOf("^3");
+			endIndex = rawText.length();
+			String base = rawText.substring(0, startIndex);
+			String suffix = rawText.substring(startIndex + 2);
+			
+			cube = new Cube(base);
+			String result = cube.getResult();
+			System.out.println("Ini hasilnya kawan : " + result); //debug
+
+			rawText = result + suffix;
 		}
 	}
 

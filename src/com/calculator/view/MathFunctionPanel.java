@@ -95,6 +95,8 @@ public class MathFunctionPanel {
 						listAllButton.get(i).setActionCommand("10^x");
 					} else if(iconName == squareIcon) {
 						listAllButton.get(i).setActionCommand("x^2");
+					} else if(iconName == cubeIcon) {
+						listAllButton.get(i).setActionCommand("^3");
 					}
 				} else {
 					listAllButton.add(new Button(iconName, buttonColor).getButton());
