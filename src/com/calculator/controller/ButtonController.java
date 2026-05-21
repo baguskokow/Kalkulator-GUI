@@ -18,8 +18,10 @@ class ButtonController implements ActionListener {
 	private JLabel screenLabel;
 	private ArrayList<JButton> listAllButton;
 	private Arithmetic arithmetic;
+	private Trigonometri trigonometri;
 	private String rawText = "0";
 	private boolean isCalculated = false;
+	String functionType = "";																		
 
 	public ButtonController(ArrayList<JButton> listAllButton, JLabel screen) {
 		this.button = button;
@@ -95,6 +97,9 @@ class ButtonController implements ActionListener {
 				}
 			}
 
+			trigonometry();
+
+
 			arithmetic = new Arithmetic(rawText);
 			String result = arithmetic.getResult();
 			rawText = result;
@@ -156,6 +161,53 @@ class ButtonController implements ActionListener {
 		}
 	}
 
+
+	private void trigonometry() {
+			// Set function type
+			if(rawText.contains("sin")) {
+				functionType = "sin";
+			} else if(rawText.contains("cos")) {
+				functionType = "cos";
+			} else if(rawText.contains("tan")) {
+				functionType = "tan";
+			}
+
+
+			if(rawText.contains("sin") || rawText.contains("cos") || rawText.contains("tan")) {
+				int startIndex;
+				int endIndex;
+				
+				if(rawText.contains("sin")) {
+					startIndex = rawText.indexOf("sin") + 3;
+				} else if(rawText.contains("cos")) {
+					startIndex = rawText.indexOf("cos") + 3;
+				} else {
+					startIndex = rawText.indexOf("tan") + 3;
+				}
+
+				if(rawText.contains(")")) {
+					endIndex = rawText.indexOf(")");
+				} else {
+					endIndex = rawText.length();
+				}
+
+				if(endIndex > startIndex) {
+					String operand = rawText.substring(startIndex, endIndex);
+					String type = rawText.substring(0, 3);
+					String result = "";
+
+					trigonometri = new Trigonometri(operand, functionType);
+					result = trigonometri.getResult();
+						
+					if(rawText.contains(")")) {
+						rawText = rawText.replace(functionType + operand + ")", result);
+					} else {
+						rawText = rawText.replace(functionType + operand, result);
+					}
+				}
+			}
+	}
+
 	private String formatToLatex(String plainText) {
 		String formatted;
 		if(plainText.isEmpty() || plainText.equals("0")) {
@@ -168,7 +220,13 @@ class ButtonController implements ActionListener {
 			formatted = plainText.replace("ln", "\\ln(");
 		} else if(plainText.contains("log")) {
 			formatted = plainText.replace("log", "\\log(");
-		}else {
+		} else if(plainText.contains("sin")) {
+			formatted = plainText.replace("sin", "\\sin(");
+		} else if(plainText.contains("cos")) {
+			formatted = plainText.replace("cos", "\\cos(");
+		} else if(plainText.contains("tan")) {
+			formatted = plainText.replace("tan", "\\tan(");
+		} else {
 			formatted = plainText;
 		}
 
