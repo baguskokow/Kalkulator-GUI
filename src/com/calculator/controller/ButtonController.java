@@ -19,6 +19,7 @@ class ButtonController implements ActionListener {
 	private ArrayList<JButton> listAllButton;
 	private Arithmetic arithmetic;
 	private Trigonometri trigonometri;
+	private SepuluhPangkatN sepuluhPangkatN;
 	private SquareRoot squareRoot;
 	private String rawText = "0";
 	private boolean isCalculated = false;
@@ -100,6 +101,8 @@ class ButtonController implements ActionListener {
 
 			trigonometry();
 			squareRoot();
+			cubeRoot();
+			sepuluhPangkatN();
 
 
 			arithmetic = new Arithmetic(rawText);
@@ -133,7 +136,18 @@ class ButtonController implements ActionListener {
 			isCalculated = false;
 			updateLatexScreen(rawText);
 			return;
-		} else if(textTombol.equals("log")) {
+		} else if(textTombol.equals("10^x")) { 
+			if(rawText.equals("0") || isCalculated) {
+				rawText = "10^";
+			} else {
+				rawText += "10^";
+			}
+
+			isCalculated = false;
+			updateLatexScreen(rawText);
+			return;
+
+		}else if(textTombol.equals("log")) {
 			if(rawText.equals("0") || isCalculated) {
 				rawText = "log";
 			} else {
@@ -169,7 +183,7 @@ class ButtonController implements ActionListener {
 		int endIndex;
 		if(rawText.contains("SQRT")) {
 			startIndex = rawText.indexOf("SQRT") + 4;
-			endIndex = 5;
+			endIndex = rawText.length();
 			String operand = rawText.substring(startIndex, endIndex);
 			
 			squareRoot = new SquareRoot(operand);
@@ -178,6 +192,21 @@ class ButtonController implements ActionListener {
 			rawText = rawText.replace("SQRT" + operand, result);
 		}
 
+	}
+
+	private void cubeRoot() {
+		int startIndex;
+		int endIndex;
+		if(rawText.contains("CUBEROOT")) {
+			startIndex = rawText.indexOf("CUBEROOT") + 8;
+			endIndex = rawText.length();
+			String operand = rawText.substring(startIndex, endIndex);
+			
+			squareRoot = new SquareRoot(operand);
+			String result = squareRoot.getResult();
+
+			rawText = rawText.replace("CUBEROOT" + operand, result);
+		}
 	}
 
 	private void trigonometry() {
@@ -225,29 +254,74 @@ class ButtonController implements ActionListener {
 				}
 			}
 	}
+	
+	private void sepuluhPangkatN() {
+		int startIndex;
+		int endIndex;
+		if(rawText.contains("10^")) {
+			startIndex = rawText.indexOf("10^") + 3;
+			endIndex = rawText.length();
+			String operand = rawText.substring(startIndex, endIndex);
+			
+			sepuluhPangkatN = new SepuluhPangkatN(operand);
+			String result = sepuluhPangkatN.getResult();
+			System.out.println("Ini hasilnya kawan : " + result);
+
+			rawText = rawText.replace("10^" + operand, result);
+		}
+	}
 
 	private String formatToLatex(String plainText) {
-		String formatted;
+		String formatted = plainText;
+		
 		if(plainText.isEmpty() || plainText.equals("0")) {
 			return "0";
 		}
 
 		if(plainText.contains("PI")) {
 			formatted = plainText.replace("PI", "\\pi");
-		}else if(plainText.contains("ln")) {
+		}
+
+		if(plainText.contains("ln")) {
 			formatted = plainText.replace("ln", "\\ln(");
-		} else if(plainText.contains("log")) {
+		} 
+
+		if(plainText.contains("log")) {
 			formatted = plainText.replace("log", "\\log(");
-		} else if(plainText.contains("sin")) {
+		} 
+
+		if(plainText.contains("sin")) {
 			formatted = plainText.replace("sin", "\\sin(");
-		} else if(plainText.contains("cos")) {
+		}
+
+		if(plainText.contains("cos")) {
 			formatted = plainText.replace("cos", "\\cos(");
-		} else if(plainText.contains("tan")) {
+		}
+		
+		if(plainText.contains("tan")) {
 			formatted = plainText.replace("tan", "\\tan(");
-		} else if(plainText.contains("SQRT")) {
+		}
+
+		if(plainText.contains("SQRT")) {
 			formatted = plainText.replace("SQRT", "\\sqrt{");
-		} else {
-			formatted = plainText;
+		} 
+
+		if(plainText.contains("CUBEROOT")) {
+			formatted = plainText.replace("CUBEROOT", "\\sqrt[3]{");
+		} 
+		
+		if(plainText.contains("SQUARE")) {
+			formatted = plainText.replaceAll("(\\d+)\\^(\\d+)", "$1^{$2}");
+		}
+
+		if(formatted.contains("10^")) {
+			int index = formatted.indexOf("10^");
+
+			String prefix = formatted.substring(0, index);
+			String pangkat = formatted.substring(index + 3);
+
+			formatted = prefix + "10^{" + pangkat + "|}";
+			System.out.println("Hasil formatted : " + formatted);
 		}
 
 		return formatted;
