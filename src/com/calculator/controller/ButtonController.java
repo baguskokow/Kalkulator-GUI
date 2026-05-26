@@ -27,6 +27,7 @@ class ButtonController implements ActionListener {
 	private NaturalLogarithmFunction naturalLogarithm;
 	private String rawText = "0";
 	private boolean isCalculated = false;
+	private String originText;
 	String functionType = "";																		
 
 	public ButtonController(ArrayList<JButton> listAllButton, JLabel screen) {
@@ -54,8 +55,6 @@ class ButtonController implements ActionListener {
 
 
 		if(textTombol.equals("=")) {
-
-
 			logarithmFunction();
 			naturalLogarithmFunction();
 			trigonometry();
@@ -88,6 +87,16 @@ class ButtonController implements ActionListener {
 				rawText = newText;
 				updateLatexScreen(rawText);
 			}
+		} else if(textTombol.equals("UNDO")) {
+			this.originText = rawText;
+			if(rawText.length() > 0) {
+				String newText = rawText.substring(0, rawText.length() - 1);
+				rawText = newText;
+				updateLatexScreen(rawText);
+			}
+		} else if(textTombol.equals("REDO")) {
+			rawText = originText;
+			updateLatexScreen(rawText);
 		} else if(textTombol.equals("ln")) {
 			if(rawText.equals("0") || isCalculated) {
 				rawText = "ln";
