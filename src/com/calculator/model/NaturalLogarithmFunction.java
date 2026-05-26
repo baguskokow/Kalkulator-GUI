@@ -13,17 +13,13 @@ import java.text.DecimalFormat;
 import java.lang.Math;
 
 class NaturalLogarithmFunction {
-	double result;
-	char[] operand;
+	static double result;
+	static char[] operand;
 
-	public NaturalLogarithmFunction(String argument) {
-		double temp = Double.parseDouble(argument);
-		
+	public static String getResult(String operand) {
+		double temp = Double.parseDouble(operand);
 		result = Math.log(temp);
 
-	}
-
-	public String getResult() {
 		if(result == (int) result) {
 			return String.valueOf(result).replaceAll("\\.0", "");
 		}

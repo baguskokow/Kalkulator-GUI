@@ -13,18 +13,13 @@ import java.text.DecimalFormat;
 import java.lang.Math;
 
 public class SepuluhPangkatN {
-	double result;
-	char[] operand;
+	static double result;
+	static char[] operand;
 
-
-	public SepuluhPangkatN(String argument) {
-		double temp = Double.parseDouble(argument);
-		
+	public static String getResult(String operand) {
+		double temp = Double.parseDouble(operand);
 		result = Math.pow(10, temp);
 
-	}
-
-	public String getResult() {
 		if(result == (int) result) {
 			return String.valueOf(result).replaceAll("\\.0", "");
 		} 

@@ -13,17 +13,13 @@ import java.text.DecimalFormat;
 import java.lang.Math;
 
 public class Square {
-	double result;
-	char[] operand;
+	static double result;
+	static char[] operand;
 
-
-	public Square(String argument) {
-		double temp = Double.parseDouble(argument);
-		
+	public static String getResult(String operand) {
+		double temp = Double.parseDouble(operand);
 		result = Math.pow(temp, 2);
-	}
 
-	public String getResult() {
 		if(result == (int) result) {
 			return String.valueOf(result).replaceAll("\\.0", "");
 		} 

@@ -185,10 +185,8 @@ class ButtonController implements ActionListener {
 			if(endIndex > startIndex) {
 				String operand = rawText.substring(startIndex, endIndex);
 				
-				logarithm = new LogarithmFunction(operand);
-				String result = logarithm.getResult();
+				String result = LogarithmFunction.getResult(operand);
 
-				//System.out.println("Cek logic : " + result); // debugging
 				if(rawText.contains(")")) {
 					rawText = rawText.replace("log" + operand + ")", result);
 				} else {
@@ -212,8 +210,7 @@ class ButtonController implements ActionListener {
 			if(endIndex > startIndex) {
 				String operand = rawText.substring(startIndex, endIndex);
 				
-				naturalLogarithm = new NaturalLogarithmFunction(operand);
-				String result = naturalLogarithm.getResult();
+				String result = NaturalLogarithmFunction.getResult(operand);
 
 				System.out.println("Cek logic : " + result); // debugging
 				if(rawText.contains(")")) {
@@ -249,8 +246,7 @@ class ButtonController implements ActionListener {
 			endIndex = rawText.length();
 			String operand = rawText.substring(startIndex, endIndex);
 			
-			squareRoot = new SquareRoot(operand);
-			String result = squareRoot.getResult();
+			String result = CubeRoot.getResult(operand);
 
 			rawText = rawText.replace("CUBEROOT" + operand, result);
 		}
@@ -310,8 +306,7 @@ class ButtonController implements ActionListener {
 			endIndex = rawText.length();
 			String operand = rawText.substring(startIndex, endIndex);
 			
-			sepuluhPangkatN = new SepuluhPangkatN(operand);
-			String result = sepuluhPangkatN.getResult();
+			String result = SepuluhPangkatN.getResult(operand);
 			System.out.println("Ini hasilnya kawan : " + result);
 
 			rawText = rawText.replace("10^" + operand, result);
@@ -327,8 +322,7 @@ class ButtonController implements ActionListener {
 			String base = rawText.substring(0, startIndex);
 			String suffix = rawText.substring(startIndex + 2);
 			
-			cube = new Cube(base);
-			String result = cube.getResult();
+			String result = Cube.getResult(base);
 			System.out.println("Ini hasilnya kawan : " + result); //debug
 
 			rawText = result + suffix;
@@ -344,8 +338,7 @@ class ButtonController implements ActionListener {
 			String base = rawText.substring(0, startIndex);
 			String suffix = rawText.substring(startIndex + 2);
 			
-			square = new Square(base);
-			String result = square.getResult();
+			String result = Square.getResult(base);
 			System.out.println("Ini hasilnya kawan : " + result);
 
 			rawText = result + suffix;

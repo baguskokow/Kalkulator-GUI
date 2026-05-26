@@ -14,6 +14,7 @@ import java.text.DecimalFormat;
 class Arithmetic {
 	ArrayList<Double> operand = new ArrayList<Double>(); 
 	ArrayList<Character> operatorCharacter = new ArrayList<Character>();
+	ArrayList<String> functions = new ArrayList<String>();
 	double result;
 
 	public Arithmetic(String argument) {
@@ -33,7 +34,6 @@ class Arithmetic {
 		if(tempNumbers.isEmpty() != true) {
 			operand.add(Double.parseDouble(tempNumbers));
 		}
-		
 
 		System.out.println("Ini dari arithmetic constructor");
 		calculated();
