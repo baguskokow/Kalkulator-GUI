@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
+import java.util.Stack;
 
 class ButtonController implements ActionListener {
 	private JButton button;
@@ -28,6 +29,8 @@ class ButtonController implements ActionListener {
 	private String rawText = "0";
 	private boolean isCalculated = false;
 	private String originText;
+	private Stack<State> undoStack = new Stack<>();
+	private Stack<State> redoStack = new Stack<>();
 	String functionType = "";																		
 
 	public ButtonController(ArrayList<JButton> listAllButton, JLabel screen) {
@@ -47,12 +50,16 @@ class ButtonController implements ActionListener {
 		String textTombol = action.getActionCommand();
 		System.out.println(textTombol); // Logger
 		boolean isOperator = false;																	
+
 																
 		
 		if(textTombol.equals("+") || textTombol.equals("-") || textTombol.equals("÷") || textTombol.equals("×")) {
 			isCalculated = false;
 		}
 
+		if(!textTombol.equals("UNDO") && !textTombol.equals("REDO") && !textTombol.equals("AC")) {
+			undoStack.push(new State(rawText));
+		}
 
 		if(textTombol.equals("=")) {
 			logarithmFunction();
@@ -88,15 +95,9 @@ class ButtonController implements ActionListener {
 				updateLatexScreen(rawText);
 			}
 		} else if(textTombol.equals("UNDO")) {
-			this.originText = rawText;
-			if(rawText.length() > 0) {
-				String newText = rawText.substring(0, rawText.length() - 1);
-				rawText = newText;
-				updateLatexScreen(rawText);
-			}
+			executeUndo();
 		} else if(textTombol.equals("REDO")) {
-			rawText = originText;
-			updateLatexScreen(rawText);
+			executeRedo();
 		} else if(textTombol.equals("ln")) {
 			if(rawText.equals("0") || isCalculated) {
 				rawText = "ln";
@@ -169,6 +170,28 @@ class ButtonController implements ActionListener {
 				}
 			}
 		}
+	}
+
+	private void executeUndo() {
+		if(undoStack.isEmpty()) {
+			return;
+		}
+
+		State lastState = undoStack.pop();
+		redoStack.push(new State(rawText));
+		rawText = lastState.rawText;
+		updateLatexScreen(lastState.rawText);
+	}
+
+	private void executeRedo() {
+		if(redoStack.isEmpty()) {
+			return;
+		}
+
+		State lastState = redoStack.pop();
+		undoStack.push(lastState);
+		rawText = lastState.rawText;
+		updateLatexScreen(lastState.rawText);
 	}
 
 	private void logarithmFunction() { // Log base 10
@@ -416,6 +439,10 @@ class ButtonController implements ActionListener {
 		}
 
 		return formatted;
+	}
+
+	private void updateLatexScreen(State state) {
+		updateLatexScreen(state.rawText);
 	}
 
 	private void updateLatexScreen(String textToRender) {
