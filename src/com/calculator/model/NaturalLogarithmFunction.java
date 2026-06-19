@@ -17,7 +17,9 @@ class NaturalLogarithmFunction {
 	static char[] operand;
 
 	public static String getResult(String operand) {
-		double temp = Double.parseDouble(operand);
+		String parsed = operand.replace("e", String.valueOf(Math.E)).replace("PI", String.valueOf(Math.PI));
+		
+		double temp = Double.parseDouble(parsed);
 		result = Math.log(temp);
 
 		if(result == (int) result) {

@@ -17,24 +17,27 @@ public class Trigonometri {
 	char[] operand;
 
 	public Trigonometri(String argument, String type) {
-		double temp = Double.parseDouble(argument);
-		double radians = Math.toRadians(temp);
+		String parsed = argument.replace("e", String.valueOf(Math.E)).replace("PI", String.valueOf(Math.PI));
+		double temp = Double.parseDouble(parsed);
 
 		if(type.equals("sin")) {
-			result = Math.sin(radians);
+			result = Math.sin(temp);
 		} else if(type.equals("cos")) {
-			result = Math.cos(radians);
+			result = Math.cos(temp);
 		} else if(type.equals("tan")) {
-			result = Math.cos(radians);
+			result = Math.tan(temp);
 		}
 	}
 
 	public String getResult() {
-		if(result == (int) result) {
-			return String.valueOf(result).replaceAll("\\.0", "");
-		}
+		double rounded = Math.round(result * 1e10) / 1e10;
+    
+		if(rounded == (int) rounded) {
+        String val = String.valueOf((int) rounded);
+        return val;
+    }
 
-		return String.valueOf(result);
+    return String.valueOf(rounded);
 	}
 	
 }

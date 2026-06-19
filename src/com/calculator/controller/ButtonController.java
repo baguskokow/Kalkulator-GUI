@@ -375,38 +375,16 @@ class ButtonController implements ActionListener {
 			return "0";
 		}
 
-		if(plainText.contains("PI")) {
-			formatted = plainText.replace("PI", "\\pi");
-		}
+		formatted = formatted.replace("PI", "\\pi");
+		formatted = formatted.replace("e", "e");         // euler, opsional
+		formatted = formatted.replace("ln", "\\ln(");
+		formatted = formatted.replace("log", "\\log(");
+		formatted = formatted.replace("sin", "\\sin(");
+		formatted = formatted.replace("cos", "\\cos(");
+		formatted = formatted.replace("tan", "\\tan(");
+		formatted = formatted.replace("SQRT", "\\sqrt{");
+		formatted = formatted.replace("CUBEROOT", "\\sqrt[3]{");
 
-		if(plainText.contains("ln")) {
-			formatted = plainText.replace("ln", "\\ln(");
-		} 
-
-		if(plainText.contains("log")) {
-			formatted = plainText.replace("log", "\\log(");
-		} 
-
-		if(plainText.contains("sin")) {
-			formatted = plainText.replace("sin", "\\sin(");
-		}
-
-		if(plainText.contains("cos")) {
-			formatted = plainText.replace("cos", "\\cos(");
-		}
-		
-		if(plainText.contains("tan")) {
-			formatted = plainText.replace("tan", "\\tan(");
-		}
-
-		if(plainText.contains("SQRT")) {
-			formatted = plainText.replace("SQRT", "\\sqrt{");
-		} 
-
-		if(plainText.contains("CUBEROOT")) {
-			formatted = plainText.replace("CUBEROOT", "\\sqrt[3]{");
-		} 
-		
 		if(plainText.contains("^2")) {
 			int index = formatted.indexOf("^2");
 
